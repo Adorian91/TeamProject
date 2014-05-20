@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+
+{% block content %}
+<!--<link rel="stylesheet" type="text/css" href="{% static 'polls/style.css' %}" /> -->
+  <link rel="stylesheet" type="text/css" href="{% static 'static/css/bootstrap.css' %}" />
+
+    <!-- Custom styles for this template -->
+     <link rel="stylesheet" type="text/css" href="{% static 'static/css/jumbotron-narrow.css' %}" />
+
+<h2> {{ poll.question }}</h2>
+<p class="lead"> Głosować można tylko na jednego kandydata.</p>
+
+
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+<form action="/polls/{{poll.id}}/vote/" method="post">
+{% for choice in poll.choice_set.all %}
+    <input type="radio" name="choice" 
+        id="choice{{ forloop.counter }}"
+        value="{{ choice.id }}"
+    />
+    <label for="choice{{ forloop.counter }}">{{ choice.choice }}</label><br />
+{% endfor %}
+
+<!-- <input type="submit" value="Glosuj" /> -->
+<input type="submit" class="btn btn-primary btn-lg" value="Głosuj" />
+</form>
+
+
+{% endblock %}

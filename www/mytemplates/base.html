@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" href="../../assets/ico/favicon.ico">
+
+    <title>Safe application for election</title>
+
+     {% load staticfiles %}
+
+    <link rel="stylesheet" type="text/css" href="{% static 'polls/style.css' %}" />
+     <link rel="stylesheet" type="text/css" href="{% static 'polls/narrow.css' %}" />
+
+    <!-- Just for debugging purposes. Don't actually copy this line! -->
+    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <div class="container">
+      <div class="header">
+
+        <ul class="nav nav-pills pull-right">
+
+
+          <li{% if request.path == '/polls/' %} class="active"{% endif %}><a href="/polls">Dostępne ankiety</a></li>
+          <li{% if request.path == '/about/' %} class="active"{% endif %}><a href="/about">O nas</a></li>
+          <li{% if request.path == '/contact/' %} class="active"{% endif %}><a href="/contact">Kontakt</a></li>
+          {% if request.path == '/loggedout/' %}
+                <li{% if request.path == '/login/' %} class="active"{% endif %}><a href="/login?next=/polls">Login</a></li>
+          {% else %}
+                <li{% if request.path == '/login/' %} class="active"{% endif %}><a href="/login?next={{request.path}}">Login</a></li>
+          {% endif %}
+
+                <li{% if request.path == '/logout/' %} class="active"{% endif %}><a href="/logout?next={{request.path}}">Logout</a></li>
+
+        </ul>
+        <a href="/index"><img src="{% static "safe.png" %}" alt="" width="15%" ></a>
+     </div>
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
+                {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}Important: {% endif %}
+                {{ message }}
+            </li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+    <div class="jumbotron">
+
+            <br>
+            {%block content %} {% endblock %}
+      </div>
+
+
+      <div class="footer">
+        <p>&copy; 2014</p>
+      </div>
+
+    </div> <!-- /container -->
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+  </body>
+</html>

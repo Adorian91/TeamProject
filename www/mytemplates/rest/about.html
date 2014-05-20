@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+
+{% block content %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'polls/style.css' %}" />
+
+<br/>
+
+<h2> 	 
+Bezpieczeństwo </h2>
+<p class="lead">Jednym z podstawowych założeń SAFE jest uniemożliwienie połączenia oddanego głosu z użytkownikiem aplikacji. Służyć ma temu wykorzystanie 2 serwerów. Oba serwery posiadają lokalną bazę danych i znajdują się na różnych maszynach, najlepiej należących do różnych organizacji, chodzi bowiem o to, by nie dopuścić do połączenia informacji z obu baz danych.
+
+Aby głosy były utajnione do końca głosowania potrzebny jest trzeci serwer przechowujący dane służące do odsłonięcia głosu. Klient wysyła do serwera GKW tylko część informacji o głosie, zaś resztę danych potrzebnych do uzyskania kompletnego głosu wysyła się na serwer trzeci. Dopiero po połączeniu informacji z tych dwóch serwerów można uzyskać czytelne głosy. </h2> 
+</p>
+<div class="lead" id="content">
+
+</div>
+
+{% endblock %}
