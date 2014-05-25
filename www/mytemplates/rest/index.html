@@ -3,11 +3,28 @@
 
 
 {% block content %}
-<link rel="stylesheet" type="text/css" href="{% static 'polls/style.css' %}" />
 
-<br/>
-<h1> Witaj na stronie <color>SAFE</color> <br/>  </h1>
-<h2><color> safe aplication for election </color><img src="{% static "safe.png" %}" alt="" width="50%" ></h2> 
+<h1><color> SAFE </color></h1>
+
+<h2> <color>Safe aplication for election </color> jest aplikacją internetową umożliwiającą bezpieczne i anonimowe głosowanie. </h2>
+
+{% endblock %}
 
 
+{% block under %}
+<div class="row marketing">
+    <div class="col-lg-6">
+        <div class="lefty">
+        <h4>Anonimowość</h4>
+        Jednym z podstawowych założeń SAFE jest uniemożliwienie połączenia oddanego głosu z użytkownikiem aplikacji. Służyć ma temu wykorzystanie 2 serwerów. Oba serwery posiadają lokalną bazę danych i znajdują się na różnych maszynach, najlepiej należących do różnych organizacji, chodzi bowiem o to, by nie dopuścić do połączenia informacji z obu baz danych.
+        </div>
+    </div>
+ 
+    <div class="col-lg-6">
+	    <div class="righty">
+	    <h4> Bezpieczeństwo </h4>
+        Aby głosy były utajnione do końca głosowania potrzebny jest trzeci serwer przechowujący dane służące do odsłonięcia głosu. Klient wysyła do serwera GKW tylko część informacji o głosie, zaś resztę danych potrzebnych do uzyskania kompletnego głosu wysyła się na serwer trzeci. Dopiero po połączeniu informacji z tych dwóch serwerów można uzyskać czytelne głosy.  
+        </div>
+    </div>
+</div>
 {% endblock %}

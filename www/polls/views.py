@@ -134,22 +134,22 @@ class LoginForm(forms.Form):
     password = forms.CharField(widget=forms.PasswordInput, label=u"Hasło")
 
 def custom_login(request):
-	if request.method=="POST":
-		form = LoginForm(request.POST)
-		if form.is_valid():
-			username = form.cleaned_data['username']
-			password = form.cleaned_data['password']
-			user = authenticate(username=username, password=password)
-			if user is not None:
-				if user.is_active:
-					login(request, user)
-					# Redirect to a success page.
-			else:
-				messages.error(request, "NIE MA CHUJA")
-				return render(request, 'registration/login.html', {'form': form})
-	else:
-		form = LoginForm()
-	return render(request, 'registration/login.html', {'form': form})
+    if request.method=="POST":
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
+            user = authenticate(username=username, password=password)
+            if user is not None:
+                if user.is_active:
+                    login(request, user)
+                    # Redirect to a success page.
+            else:
+                messages.error(request, "NIE MA CHUJA")
+                return render(request, 'registration/login.html', {'form': form})
+    else:
+        form = LoginForm()
+    return render(request, 'registration/login.html', {'form': form})
 
 
 """

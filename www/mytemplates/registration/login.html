@@ -4,7 +4,7 @@
 
 <center>
 <h2>Logowanie na stronę "SAFE"</h2>
-Logowanie jest wymagane, aby zobaczyć dostępne ankiety. <br/>Aby zalogować się, należy użyć swojej nazwy użytkownika i hasła z domeny <b>LABS</b>.
+Logowanie jest wymagane, aby zobaczyć dostępne ankiety. <br/>Aby zalogować się, należy użyć swojej nazwy użytkownika i hasła z domeny <b>LABS</b>. 
 <p>
 <div style="margin-left:35%;margin-right:35%;">
 {% if form.errors %}
@@ -12,14 +12,13 @@ Logowanie jest wymagane, aby zobaczyć dostępne ankiety. <br/>Aby zalogować si
 {% endif %}
 
 
-<form method="post" action="">
-{% csrf_token %}
-{{form.as_p}}
-<input type="submit" value="Login">
+<form method="post" action="">{% csrf_token %}
+  {{form.as_p}}
+<input type="submit" value="Login">{% csrf_token %}
 </form>
 
 
 </div>
-</center>
+</center> 
 
 {% endblock %}
