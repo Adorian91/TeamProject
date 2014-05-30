@@ -97,7 +97,7 @@ if DEBUG:
 )
 
 LOGIN_REDIRECT_URL = '/polls/'
-
+LOGIN_URL = '/login/'
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
 )

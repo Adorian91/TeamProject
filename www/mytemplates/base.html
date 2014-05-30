@@ -13,8 +13,8 @@
      {% load staticfiles %}
 
     <link rel="stylesheet" type="text/css" href="{% static 'polls/style.css' %}" />
-   
-     <link rel="stylesheet" type="text/css" href="{% static 'polls/narrow.css' %}" /> 
+
+     <link rel="stylesheet" type="text/css" href="{% static 'polls/narrow.css' %}" />
  {% comment %}
     <!-- Just for debugging purposes. Don't actually copy this line! -->
     <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
@@ -24,7 +24,7 @@
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
       <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-    
+
     {% endcomment %}
   </head>
 
@@ -32,8 +32,8 @@
 
     <div class="container">
       <div class="header">
-		<a href="/index"><img src="{% static "safe.png" %}" alt="" / ></a>  
-		<ul class="nav nav-pills">         
+		<a href="/index"><img src="{% static "safe.png" %}" alt="" / ></a>
+		<ul class="nav nav-pills">
 			<li{% if request.path == '/polls/' %} class="active"{% endif %}><a href="/polls">Dostępne ankiety</a></li>
 			<li{% if request.path == '/contact/' %} class="active"{% endif %}><a href="/contact">Kontakt</a></li>
 			{% if request.path == '/loggedout/' %}
@@ -41,18 +41,18 @@
 			{% else %}
 			 <li{% if request.path == '/login/' %} class="active"{% endif %}><a href="/login?next={{request.path}}">Login</a></li>
 			{% endif %}
-			 <li{% if request.path == '/logout/' %} class="active"{% endif %}><a href="/logout?next={{request.path}}">Logout</a></li>   
+			 <li{% if request.path == '/logout/' %} class="active"{% endif %}><a href="/logout?next={{request.path}}">Logout</a></li>
 		</ul>
-     
-     </div>  
+
+     </div>
       <div class="jumbotron">
             {%block content %} {% endblock %}
-      </div> 
-  
+      </div>
+
           {% block under %}  {% endblock %}
 
-   
-     
+
+
 
       <div class="footer">
         <p>&copy; 2014</p>

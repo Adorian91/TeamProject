@@ -13,9 +13,9 @@ urlpatterns = patterns('',
     url(r'^(?P<pk>\d+)/$', views.DetailView.as_view(), name='detail'),
     url(r'^(?P<pk>\d+)/results/$', views.ResultsView.as_view(), name='results'),
     url(r'^(?P<poll_id>\d+)/vote/$', views.vote, name='vote'),
-    url(r'^polls/', include('polls.urls', namespace="polls")),
+    # url(r'^polls/', include('polls.urls', namespace="polls")),
     url(r'^$', TemplateView.as_view(template_name='base.html')),
    # url(r'^polls/about/$', views.about, name='about'),
-    
+
 )
 

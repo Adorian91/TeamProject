@@ -6,8 +6,10 @@ from django.shortcuts import render_to_response, get_object_or_404
 from polls.models import Choice, Poll
 from django.core.urlresolvers import reverse
 from django.views import generic
-from django.contrib.auth import authenticate, login, logout
-from django.template import RequestContext
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
+from django import forms
 from django.shortcuts import redirect
 from django.contrib import messages
 import ldap
@@ -17,15 +19,10 @@ import ldap.sasl
 def index(request):
     return render(request, 'rest/index.html')
 
-
+@login_required
 def polls(request):
-    if request.user.is_authenticated():
-        latest_poll_list = Poll.objects.all().order_by('-pub_date')[:5]
-        return render_to_response('polls/polls.html', {'latest_poll_list': latest_poll_list})
-    else:
-        return redirect("/login")
-        #return render(request, 'registration/login.html')
-        #print "A"
+    latest_poll_list = Poll.objects.all().order_by('-pub_date')[:5]
+    return render_to_response('polls/polls.html', {'latest_poll_list': latest_poll_list})
 
 def detail(request):
     if request.user.is_authenticated():
@@ -82,15 +79,14 @@ def my_view(request):
 
 ##########################################################
 ##########################################################
-from django.contrib.auth.models import User
 
-def authenticate(username=None,password=None):
+def ldap_authenticate(username=None,password=None):
     if len(password) == 0:
         return None
     servers = ["ldap://dc1.labs.wmi.amu.edu.pl", "ldap://dc2.labs.wmi.amu.edu.pl"]
     suffix =  "@labs.wmi.amu.edu.pl";
     port = 636;
-    root = "OU=Students,OU=People,DC=labs,DC=wmi,DC=amu,DC=edu,DC=pl";
+    # root = "OU=Students,OU=People,DC=labs,DC=wmi,DC=amu,DC=edu,DC=pl";
 
     ldap.PORT = port
 
@@ -109,25 +105,24 @@ def authenticate(username=None,password=None):
         if password:
             # authorized
             try:
-                exists = ldap_handler.simple_bind_s(login, password)
+                exists = ldap_handler.simple_bind_s(username + suffix, password)
                 if exists:
-                    user = User.objects.get_or_create(username=login, password=password)
-                    return user
+                    if not User.objects.filter(username=username).first():
+                        User.objects.create_user(username=username, password=password)
+                    return True
                 else:
-                    return None
+                    return False
 
             except ldap.INVALID_CREDENTIALS:
                 print "Invalid credentials"
-                exit(1)
+                return False
         else:
             # anonymous
             return ldap_handler.bind_s('','', ldap.AUTH_SIMPLE)
     except ldap.LDAPError, e:
-        return e
+        print "LDAP ERROR", e.message
+        return False
 
-# from django.contrib.auth.forms import AuthenticationForm
-from django.contrib.auth import login
-from django import forms
 
 class LoginForm(forms.Form):
     username = forms.CharField(max_length=20, label=u"Użytkownik")
@@ -139,13 +134,15 @@ def custom_login(request):
         if form.is_valid():
             username = form.cleaned_data['username']
             password = form.cleaned_data['password']
-            user = authenticate(username=username, password=password)
-            if user is not None:
+            ldap_ret = ldap_authenticate(username=username, password=password)
+
+            if ldap_ret:
+                user = authenticate(username=username, password=password)
                 if user.is_active:
                     login(request, user)
-                    # Redirect to a success page.
+                    return redirect(reverse('polls'))
             else:
-                messages.error(request, "NIE MA CHUJA")
+                messages.error(request, "Błędne dane.")
                 return render(request, 'registration/login.html', {'form': form})
     else:
         form = LoginForm()
